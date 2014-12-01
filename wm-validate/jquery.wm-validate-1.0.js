@@ -9,7 +9,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GPL2 License 
  */
 
-(function ($) {
+;(function ($) {
     'use strict';
     $.fn.extend({
         wmValidate: function (options) {
