@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="assets/css/app.css">
+
+		<title>WM Validate</title>
+	</head>
+	<body>
+
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row">
+
+			  	<div class="col-sm-6">
+
+			  		<form action="#" method="get">
+						<div class="box-d">
+							<div class="box-header">
+								<h2>Exemplo um</h2>
+							</div>
+							<hr>
+							<div class="box-body">
+
+								<div class="form-group">
+									<label>require</label>
+									<input type="text" class="form-control required">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>email</label>
+									<input type="text" class="form-control email">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>integer</label>
+									<input type="text" class="form-control integer">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>digit</label>
+									<input type="text" class="form-control digit">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>url</label>
+									<input type="text" class="form-control url">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>minlength</label>
+									<input type="text" class="form-control minlength" data-minlength="5">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>maxlength</label>
+									<input type="text" class="form-control maxlength" data-maxlength="5">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>rangelength</label>
+									<input type="text" class="form-control rangelength" data-maxlength="5" data-minlength="3">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>min</label>
+									<input type="text" class="form-control min" data-min="5">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>max</label>
+									<input type="text" class="form-control max" data-max="5">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>range</label>
+									<input type="text" class="form-control range" data-max="5" data-min="3">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>equalTo</label>
+									<input type="text" class="form-control equalTo" data-target="equalTarget">
+								</div>
+
+								<div class="form-group">
+									<label>target</label>
+									<input type="text" class="form-control equalTarget">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>date</label>
+									<input type="text" class="form-control date">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>cpf</label>
+									<input type="text" class="form-control cpf">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>cnpj</label>
+									<input type="text" class="form-control cnpj">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>cep</label>
+									<input type="text" class="form-control cep">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>phone</label>
+									<input type="text" class="form-control phone">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>creditcard</label>
+									<input type="text" class="form-control creditcard">
+									<span class="msg-error"></span>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-f right">
+							<button class="btn big btn-primary wm-submit">
+								Enviar
+							</button>
+						</div>
+
+					</form>
+
+					<br><br><br>
+
+			  	</div>
+
+			  	<div class="col-sm-6">
+
+			  		<form action="#" method="get">
+						<div class="box-d">
+							<div class="box-header">
+								<h2>Exemplo dois</h2>
+							</div>
+							<hr>
+							<div class="box-body">
+
+								<div class="form-group">
+									<label>require in textarea</label>
+									<textarea class="form-control required"></textarea>
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>require in checkbox</label>
+									<br>
+									<label>
+										<input type="checkbox" name="teste_checkbox" class="required" value="um">
+										valor um
+									</label>
+									<br>
+									<label>
+										<input type="checkbox" name="teste_checkbox" class="required" value="dois">
+										valor dois
+									</label>
+									<br>
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>require in radio button</label>
+									<br>
+									<label>
+										<input type="radio" name="teste_radio" class="required" value="um">
+										valor um
+									</label>
+									<br>
+									<label>
+										<input type="radio" name="teste_radio" class="required" value="dois">
+										valor dois
+									</label>
+									<br>
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>require in select box</label>
+									<select name="teste_select" class="form-control required">
+										<option value="">-selecione-</option>
+										<option value="um">valor um</option>
+										<option value="dois">valor dois</option>
+									</select>
+									<span class="msg-error"></span>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-f right">
+							<button class="btn big btn-primary wm-submit">
+								Enviar
+							</button>
+						</div>
+
+					</form>
+
+					<br><br><br>
+
+			  	</div>
+
+			</div>
+
+		</div><!-- /.container -->
+
+		<script type="text/javascript" src="assets/js/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="wm-validate/jquery.wm-validate-1.0.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('form').wmValidate({
+					//config : {
+					//	goToError : false
+					//}
+				});
+			});
+		</script>
+	</body>
+</html>
