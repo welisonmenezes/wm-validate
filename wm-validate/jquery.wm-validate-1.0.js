@@ -106,9 +106,10 @@
              *  callbacks
              */
             callbacks = {
-                element : false,
-                message : false,
-                erro    : options.selectors.erro,
+                element     : false,
+                message     : false,
+                erro        : options.selectors.erro,
+                boxError    : options.selectors.msgError,
                 /**
                  * callback fields validation
                  *
