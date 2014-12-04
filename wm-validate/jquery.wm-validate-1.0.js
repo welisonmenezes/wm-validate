@@ -26,7 +26,7 @@
                     url         : 'Url inválida!',
                     minlength   : 'Texto muito pequeno!',
                     maxlength   : 'Texto muito grande!',
-                    rangelength : 'Verifique o tamanho da string.',
+                    rangelength : 'Verifique o tamanho do texto.',
                     min         : 'Valor menor que o esperado.',
                     max         : 'Valor maior que o esperada.',
                     range       : 'Verifique o valor.',
@@ -37,130 +37,6 @@
                     cep         : 'CEP inválido!',
                     phone       : 'Número inválido!',
                     creditcard  : 'Número de cartão inválido!'
-                },
-                callbacks : {
-                     /**
-                     * callback field validation
-                     *
-                     * @param htmlElement validated field 
-                     * @param string message error
-                     * 
-                     * @return void
-                     */
-                    CB_Input: function(el, msg){
-                        var t = el, n = t.next(), type = t.attr('type');  
-                        t.addClass(options.selectors.erro);
-                        if(type==='checkbox' || type==='radio')
-                        {
-                            t.parent().parent().find('label').addClass(options.selectors.erro);
-                            t.parent().parent().find('.'+options.selectors.msgError).show().html(msg);
-                        }
-                        else
-                        {
-                            t.parent().find('label').addClass(options.selectors.erro);
-                            t.parent().find('.'+options.selectors.msgError).show().html(msg);
-                        }
-                    },
-                    /**
-                     * callback clear error validation - call in click btn submit
-                     * before new validation
-                     *
-                     * @param htmlElement validated form
-                     * 
-                     * @return void
-                     */
-                    CB_ClearErrors: function(form){
-                        if(!options.config.cleanErrors) return false;
-                        var $form = form;
-                        $form.find('label, input, select, textarea').removeClass(options.selectors.erro);
-                        $form.find('.'+options.selectors.msgError).hide().html('');
-                    },
-                    /**
-                     * callback fields validation
-                     *
-                     * @param htmlElement validated field 
-                     * @param string message error (you can use : options.messages.required)
-                     * 
-                     * @return void
-                     */
-                    CB_Required: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Email: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Integer: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Digit: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Url: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Minlength: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Maxlength: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_RangeLength: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    }, 
-                    CB_Min: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Max: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Range: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    }, 
-                    CB_EqualTo: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Date: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Cpf: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    }, 
-                    CB_Cnpj: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_Cep: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    }, 
-                    CB_Phone: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    },
-                    CB_CreditCard: function(el, msg){
-                        options.callbacks.CB_Input(el, msg);
-                    }, 
-                    /**
-                     * callback before/after validation
-                     *
-                     * @return void
-                     */
-                    CB_BeforeValidate   : function(){},
-                    CB_AfterValidate    : function(){},
-                    /**
-                     * callback when has error
-                     *
-                     * @param htmlElement validated form 
-                     *
-                     * @return void
-                     */
-                    CB_Error            : function(form){
-                        if(!options.config.goToError) return false;
-                        var $form  = form, top;
-                        var e = $('.'+options.selectors.erro, $form).first();
-                        if(e.offset())
-                        {
-                            top = e.offset().top;
-                            $("html, body").animate({scrollTop:top}, '500');
-                        }
-                    }
                 },
                 // selectors - only css class
                 selectors : {
@@ -194,12 +70,363 @@
                     max         : 10,
                     goToError   : true,
                     cleanErrors : true
+                },
+                // callbacks
+                callbacks : {
+                    CB_Required         : false,
+                    CB_Email            : false,
+                    CB_Integer          : false,
+                    CB_Digit            : false,
+                    CB_Url              : false,
+                    CB_Minlength        : false,
+                    CB_Maxlength        : false,
+                    CB_RangeLength      : false, 
+                    CB_Min              : false,
+                    CB_Max              : false,
+                    CB_Range            : false, 
+                    CB_EqualTo          : false,
+                    CB_Date             : false,
+                    CB_Cpf              : false, 
+                    CB_Cnpj             : false,
+                    CB_Cep              : false, 
+                    CB_Phone            : false,
+                    CB_CreditCard       : false, 
+                    CB_BeforeValidate   : false,
+                    CB_AfterValidate    : false,
+                    CB_Error            : false,
+                    CB_ClearErrors      : false
                 }
             },
             /**
              *  merge default configurations with custom user configurations
              */
             options = $.extend(true, defaults, options),
+
+            /**
+             *  callbacks
+             */
+            callbacks = {
+                element : false,
+                message : false,
+                erro    : options.selectors.erro,
+                /**
+                 * callback fields validation
+                 *
+                 * @param htmlElement validated field 
+                 * @param string message error (you can use : options.messages.required)
+                 * 
+                 * @return void
+                 */
+                CB_Required: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Required ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Required.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Email: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Email ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Email.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Integer: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Integer ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Integer.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Digit: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Digit ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Digit.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Url: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Url ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Url.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Minlength: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Minlength ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Minlength.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Maxlength: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Maxlength ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Maxlength.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_RangeLength: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_RangeLength ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_RangeLength.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                CB_Min: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Min ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Min.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Max: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Max ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Max.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Range: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Range ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Range.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                CB_EqualTo: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_EqualTo ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_EqualTo.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Date: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Date ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Date.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Cpf: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Cpf ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Cpf.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                CB_Cnpj: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Cnpj ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Cnpj.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Cep: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Cep ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Cep.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                CB_Phone: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Phone ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Phone.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_CreditCard: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_CreditCard ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_CreditCard.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                /**
+                 * callback before/after validation
+                 *
+                 * @return void
+                 */
+                CB_BeforeValidate   : function(form){
+                    if($.isFunction( options.callbacks.CB_BeforeValidate ))
+                    {
+                        this.element = form;
+                        options.callbacks.CB_BeforeValidate.apply(this, arguments);
+                    }
+                    else
+                    {}
+                },
+                CB_AfterValidate    : function(form){
+                    if($.isFunction( options.callbacks.CB_AfterValidate ))
+                    {
+                        this.element = form;
+                        options.callbacks.CB_AfterValidate.apply(this, arguments);
+                    }
+                    else
+                    {}
+                },
+                /**
+                 * callback when has error
+                 *
+                 * @param htmlElement validated form 
+                 *
+                 * @return void
+                 */
+                CB_Error            : function(form){
+                    if($.isFunction( options.callbacks.CB_Error ))
+                    {
+                        this.element = form;
+                        options.callbacks.CB_Error.apply(this, arguments);
+                    }
+                    else
+                    {
+                        if(!options.config.goToError) return false;
+                        var $form  = form, top;
+                        var e = $('.'+options.selectors.erro, $form).first();
+                        if(e.offset())
+                        {
+                            top = e.offset().top;
+                            $("html, body").animate({scrollTop:top}, '500');
+                        }
+                    }
+                },
+                /**
+                 * callback field validation
+                 *
+                 * @param htmlElement validated field 
+                 * @param string message error
+                 * 
+                 * @return void
+                 */
+                CB_Input: function(el, msg){
+                    var t = el, n = t.next(), type = t.attr('type'); 
+
+                    t.addClass(options.selectors.erro);
+                    if(type==='checkbox' || type==='radio')
+                    {
+                        t.parent().parent().find('label').addClass(options.selectors.erro);
+                        t.parent().parent().find('.'+options.selectors.msgError).show().html(msg);
+                    }
+                    else
+                    {
+                        t.parent().find('label').addClass(options.selectors.erro);
+                        t.parent().find('.'+options.selectors.msgError).show().html(msg);
+                    }
+                },
+                /**
+                 * callback clear error validation - call in click btn submit
+                 * before new validation
+                 *
+                 * @param htmlElement validated form
+                 * 
+                 * @return void
+                 */
+                CB_ClearErrors: function(form){
+                    if($.isFunction( options.callbacks.CB_ClearErrors ))
+                    {
+                        this.element = form;
+                        options.callbacks.CB_ClearErrors.apply(this, arguments);
+                    }
+                    else
+                    {
+                        if(!options.config.cleanErrors) return false;
+                        var $form = form;
+                        $form.find('label, input, select, textarea').removeClass(options.selectors.erro);
+                        $form.find('.'+options.selectors.msgError).hide().html('');
+                    }
+                }
+            },
             /**
              *  utility functions
              */
@@ -556,13 +783,8 @@
                  * @return boolean
                  */
                 isPhone: function(val){
-                    var value = val.replace("(", "");
-                        value = value.replace(")", "");
-                        value = value.replace("-", "");
-                        value = value.replace("_", "");
-                        value = value.replace(" ", "");
-                        value = value.replace("+", "");
-                    return /[0-9]{8,14}/.test(value);
+                    var value = val.replace(/[\(\)\-_ \+]/g,'');
+                    return /^([0-9]{8,14})$/.test(value);
                 },
                 /**
                  * verify if parans is valid creditcard
@@ -628,7 +850,7 @@
                         {
                             if( !util.hasChecked(t, $form) )
                             {
-                                options.callbacks.CB_Required(t, options.messages.required);
+                                callbacks.CB_Required(t, options.messages.required);
                                 error = true;
                             }
                         }
@@ -637,7 +859,7 @@
                         {
                             if(util.isEmpty(t.val()))
                             {
-                                options.callbacks.CB_Required(t, options.messages.required);
+                                callbacks.CB_Required(t, options.messages.required);
                                 error = true;
                             }
                         }
@@ -661,7 +883,7 @@
 
                         if( !util.isEmpty(t.val()) && !util.isEmail(t.val()) )
                         {
-                            options.callbacks.CB_Email(t, options.messages.email);
+                            callbacks.CB_Email(t, options.messages.email);
                             error = true;
                         }
                     });
@@ -683,7 +905,7 @@
 
                         if( !util.isInteger(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Integer(t, options.messages.integer);
+                            callbacks.CB_Integer(t, options.messages.integer);
                             error = true;
                         }
                     });
@@ -705,7 +927,7 @@
 
                         if( !util.isDigit(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Digit(t, options.messages.digit);
+                            callbacks.CB_Digit(t, options.messages.digit);
                             error = true;
                         }
                     });
@@ -727,7 +949,7 @@
 
                         if( !util.isUrl(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Url(t, options.messages.url);
+                            callbacks.CB_Url(t, options.messages.url);
                             error = true;
                         }
                     });
@@ -749,7 +971,7 @@
                         var data = (t.data('minlength')  && parseInt(t.data('minlength')) )  ? t.data('minlength') : options.config.minlength;
                         if( util.hasLessThan(t.val(), data) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_Minlength(t, options.messages.minlength);
+                            callbacks.CB_Minlength(t, options.messages.minlength);
                             error = true;
                         }
                     });
@@ -771,7 +993,7 @@
                         var data = (t.data('maxlength')  && parseInt(t.data('maxlength')) )  ? t.data('maxlength') : options.config.maxlength;
                         if( util.hasMoreThan(t.val(), data) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_Maxlength(t, options.messages.maxlength);
+                            callbacks.CB_Maxlength(t, options.messages.maxlength);
                             error = true;
                         }
                     });
@@ -794,7 +1016,7 @@
                         var min = (t.data('minlength')  && parseInt(t.data('minlength')) )  ? t.data('minlength') : options.config.minlength;
                         if( !util.hasRangeLength(t.val(), min, max) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_RangeLength(t, options.messages.rangelength);
+                            callbacks.CB_RangeLength(t, options.messages.rangelength);
                             error = true;
                         }
                     });
@@ -816,7 +1038,7 @@
                         var data = (t.data('min')  && parseInt(t.data('min')) )  ? t.data('min') : options.config.min;
                         if( util.isMin(t.val(), data) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_Min(t, options.messages.min);
+                            callbacks.CB_Min(t, options.messages.min);
                             error = true;
                         }
                     });
@@ -838,7 +1060,7 @@
                         var data = (t.data('max')  && parseInt(t.data('max')) )  ? t.data('max') : options.config.max;
                         if( util.isMax(t.val(), data) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_Max(t, options.messages.max);
+                            callbacks.CB_Max(t, options.messages.max);
                             error = true;
                         }
                     });
@@ -861,7 +1083,7 @@
                         var min = (t.data('min')  && parseInt(t.data('min')) )  ? t.data('min') : options.config.min;
                         if( !util.isRange(t.val(), min, max) && !util.isEmpty(t.val())  )
                         {
-                            options.callbacks.CB_Range(t, options.messages.range);
+                            callbacks.CB_Range(t, options.messages.range);
                             error = true;
                         }
                     });
@@ -883,7 +1105,7 @@
 
                         if( t.data('target') && !util.equalTo( t.val(), $('.'+t.data('target')).val() ) )
                         {
-                            options.callbacks.CB_EqualTo($('.'+t.data('target')), options.messages.equalTo);
+                            callbacks.CB_EqualTo($('.'+t.data('target')), options.messages.equalTo);
                             error = true;
                         }
                     });
@@ -905,7 +1127,7 @@
 
                         if( !util.isDate(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Date(t, options.messages.date);
+                            callbacks.CB_Date(t, options.messages.date);
                             error = true;
                         }
                     });
@@ -927,7 +1149,7 @@
 
                         if( !util.isCpf(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Cpf(t, options.messages.cpf);
+                            callbacks.CB_Cpf(t, options.messages.cpf);
                             error = true;
                         }
                     });
@@ -949,7 +1171,7 @@
 
                         if( !util.isCnpj(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Cnpj(t, options.messages.cnpj);
+                            callbacks.CB_Cnpj(t, options.messages.cnpj);
                             error = true;
                         }
                     });
@@ -970,7 +1192,7 @@
                         var t = $(this);
                         if( !util.isCep(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Cep(t, options.messages.cep);
+                            callbacks.CB_Cep(t, options.messages.cep);
                             error = true;
                         }
                     });
@@ -991,7 +1213,7 @@
                         var t = $(this);
                         if( !util.isPhone(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_Phone(t, options.messages.phone);
+                            callbacks.CB_Phone(t, options.messages.phone);
                             error = true;
                         }
                     });
@@ -1012,7 +1234,7 @@
                         var t = $(this);
                         if( !util.isCreditCard(t.val()) && !util.isEmpty(t.val()) )
                         {
-                            options.callbacks.CB_CreditCard(t, options.messages.creditcard);
+                            callbacks.CB_CreditCard(t, options.messages.creditcard);
                             error = true;
                         }
                     });
@@ -1030,10 +1252,10 @@
                     var error  = 0;
 
                     // before validate
-                    options.callbacks.CB_BeforeValidate();
+                    callbacks.CB_BeforeValidate();
 
                     // clear erros
-                    options.callbacks.CB_ClearErrors($form);
+                    callbacks.CB_ClearErrors($form);
 
                     // required
                     if( funcs.required($form) ) error++;
@@ -1090,11 +1312,11 @@
                     if( funcs.creditcard($form) ) error++;
 
                     // after validate
-                    options.callbacks.CB_AfterValidate();
+                    callbacks.CB_AfterValidate();
 
                     if(error>0)
                     {
-                        options.callbacks.CB_Error($form);
+                        callbacks.CB_Error($form);
                     }
                     else
                     {

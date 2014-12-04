@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Plugin jQuery para validação de formulários">
+		<meta name="keywords" content="Validação, Validação formulário, Plugin validação, form validate">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="assets/css/app.css">
+
+		<link rel="stylesheet" href="assets/syntaxhighlighter/styles/shCore.css">
+		<link rel="stylesheet" href="assets/syntaxhighlighter/styles/shCoreDefault.css">
+
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shBrushXml.js"></script>
+
+		<title>WM Validate - Plugin jQuery para validação de formulários</title>
+	</head>
+	<body>
+
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Home</a></li>
+						<li class="active"><a href="init.html">Inicialização</a></li>
+						<li><a href="config.html">Configurações</a></li>
+						<li><a href="exemple.html">Exemplo</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row">
+
+			  	<div class="col-sm-12">
+
+			  		<div class="btn-group btn-group-justified">
+				    	<a href="https://github.com/welisonmenezes/wm-validate" target="_blank" class="btn btn-primary" title="WM Validate no Github">DOWNLOAD</a>
+
+				    	<a href="https://twitter.com/WelisonMenezes" target="_blank" class="btn btn-primary" title="Perfil no Twitter">TWITTER</a>
+
+				    	<a href="http://welisonmenezes.com.br/" target="_blank" class="btn btn-primary" title="Portifólio Welison Menezes">WEBSITE</a>
+				    </div>
+
+			  		<article class="body">
+			  			<h1>Plugin jQuery para validação de formulários</h1>
+			  			<p>
+			  				Manual de uso do Plugin WM Validate para validação de formulários
+			  			</p>
+			  			<hr>
+
+			  			<h3>
+			  				Instalação
+			  			</h3>
+
+			  			<p>
+			  				Inclua os scripts js necessários. Exemplo:
+			  			</p>
+
+				  		<pre class="brush: js;">
+							<script src="assets/js/jquery-1.9.1.min.js"></script>
+							<script src="wm-validate/jquery.wm-validate-1.0.min.js"></script>
+						</pre>
+
+						<h3>Inicialização</h3>
+
+						<p>
+							Selecione um ou mais formulários que receberão a validação do plugin. Exemplo:
+						</p>
+
+						<pre class="brush: js;">
+							<script type="text/javascript">
+								$(document).ready(function(){
+									$('form').wmValidate();
+								});
+							</script>
+						</pre>
+
+						<h3>O Html</h3>
+
+						<p>
+							Para a exibição das mensagens de erro e aplicação das classes css de erro, o plugin espera uma estrutura html específica, porém isso poderá ser configurado.
+						</p>
+
+						<p>
+							Por default inputs em geral, textareas e selects devem estar em um container junto com o elemento que receberá a mensagem de error. Exemplo:
+						</p>
+
+						<pre class="brush: html;">
+							<!-- container -->
+							<div>
+						        <label>Inputs em geral e textarea</label>
+						        <input type="text" class="required">
+						        <span class="msg-error"></span>
+						    </div>
+
+						    <!-- container -->
+							<div>
+								<label>Selects</label>
+								<select name="t_select" class="required">
+									<option value="">-selecione-</option>
+									<option value="um">valor um</option>
+									<option value="dois">valor dois</option>
+								</select>
+								<span class="msg-error"></span>
+							</div>
+						</pre>
+
+						<p>
+							Já os botões checkbox e radio devem estar em um label, que por sua vez deve estar em um container junto com o elemento que receberá a mensagem de error. Exemplo:
+						</p>
+
+						<pre class="brush: html;">
+							<!-- container -->
+							<div>
+								<!-- label -->
+						        <label>
+						            <input type="checkbox" name="t_checkbox" class="required" value="um"> valor um
+						        </label>
+
+						        <!-- label -->
+						        <label>
+						            <input type="checkbox" name="t_checkbox" class="required" value="dois"> valor dois
+						        </label>
+						        <span class="msg-error"></span>
+						    </div>
+						</pre>
+
+						<h3>Botão de submit</h3>
+
+						<p>
+							Por padrão a classe do elemento clicável que validará e submeterá o formulário deve conter a classe <strong>.wm-validate</strong>. Mas isso poderá ser configurado. Exemplo: 
+						</p>
+
+						<pre class="brush: html;">
+							<button class="wm-submit">
+								Enviar
+							</button>
+						</pre>
+
+						<h3>Classes para regras de validação</h3>
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								  	<th>
+								  		Classe
+								  	</th>
+								  	<th style="width:45%;">
+								  		Descrição
+								  	</th>
+								  	<th>
+								  		Exemplo
+								  	</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<em>required</em>
+									</td>
+									<td style="width:45%;">
+										Não permite campos vazios. Pelo menos um campo checkbox e radio com mesmo nome deve ser selecionado.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="required">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>email</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas emails válidos.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="email">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>integer</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas números.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="integer">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>digit</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas letras e números.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="digit">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>url</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas urls válidas.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="url">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>minlength</em>
+									</td>
+									<td style="width:45%;">
+										Permite apartir de uma quantidade mínima configurada. A configuração pode ser feita usando o atributo data-minlength.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="minlength" data-minlength="2">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>maxlength</em>
+									</td>
+									<td style="width:45%;">
+										Permite até uma quantidade máxima configurada. A configuração pode ser feita usando o atributo data-maxlength.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="maxlength" data-maxlength="5">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>rangelength</em>
+									</td>
+									<td style="width:45%;">
+										Permite até uma quantidade máxima configurada e apartir de uma quantidade mínima configurada. A configuração pode ser feita usando os atributos data-minlength e data-maxlength.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="rangelength" data-mixlength="2" data-maxlength="5">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>min</em>
+									</td>
+									<td style="width:45%;">
+										Permite um valor inteiro maior ou igual que o valor configurado. A configuração pode ser feita usando o atributo data-min.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="min" data-min="2">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>max</em>
+									</td>
+									<td style="width:45%;">
+										Permite um valor inteiro menor ou igual que o valor configurado. A configuração pode ser feita usando o atributo data-max.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="max" data-max="5">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>range</em>
+									</td>
+									<td style="width:45%;">
+										Permite um valor inteiro menor ou igual que o valor configurado e um valor inteiro maior ou igual que o valor configurado. A configuração pode ser feita usando os atributos data-min e data-max.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="range" data-min="2" data-max="5">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>equalTo</em>
+									</td>
+									<td style="width:45%;">
+										Compara o valor do elemento com o valor do elemento alvo. Devem ser iguais. O elemento alvo é configurado no atributo data-target, onde você informa a classe do elemento alvo.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<!-- elemeto -->
+											<input type="text" class="equalTo" data-target="target">
+											<!-- alvo -->
+											<input type="text" class="target">
+											<!-- mensagem de erro -->
+											<span class="msg-error"></span>
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>date</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas datas válidas. Formato brasileiro 99/99/9999
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="date">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cpf</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas cpf válido.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="cpf">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cnpj</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas cnpj válido.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="cnpj">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cep</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas ceps válidos. Formato brasileiro: 
+										99999-999, 99.999-999 ou 99999999
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="cep">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>phone</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas números de telefone válidos. Formato brasileiro: 21 9 9999 9999
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="phone">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>creditcard</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas números de cartão válidos.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="text" class="creditcard">
+										</pre>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<h3>Sobre as regras de validação</h3>
+
+						<p>
+							O plugin aplica uma regra de validação por vez. Sendo assim, para validar um campo que deve ser obrigatório e de e-mail ao mesmo tempo, você deve atribuir as classes de validação de obrigatoriedade e email. Exemplo:
+						</p>
+
+						<pre class="brush: html;">
+							<div>
+								<label>E-mail</label>
+								<input type="text" class="required email">
+								<span class="msg-error"></span>
+							</div>
+						</pre>
+
+			  		</article>
+
+			  		<div class="btn-group btn-group-justified">
+				    	<a href="https://github.com/welisonmenezes/wm-validate" target="_blank" class="btn btn-primary" title="WM Validate no Github">DOWNLOAD</a>
+
+				    	<a href="https://twitter.com/WelisonMenezes" target="_blank" class="btn btn-primary" title="Perfil no Twitter">TWITTER</a>
+
+				    	<a href="http://welisonmenezes.com.br/" target="_blank" class="btn btn-primary" title="Portifólio Welison Menezes">WEBSITE</a>
+				    </div>
+			  		
+			  	</div>
+
+			  	
+		</div><!-- /.container --><br><br><br>
+
+		<footer class="footer">
+			<div class="container">
+			<p class="text-muted">&copy; Todos os direitos reservados. 2014 || Welison Menezes</p>
+			</div>
+		</footer>
+
+		<script type="text/javascript" src="assets/js/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="wm-validate/jquery.wm-validate-1.0.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				SyntaxHighlighter.all();
+			});
+		</script>
+	</body>
+</html>

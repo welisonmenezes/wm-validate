@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Plugin jQuery para validação de formulários">
+		<meta name="keywords" content="Validação, Validação formulário, Plugin validação, form validate">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="assets/css/app.css">
+
+		<link rel="stylesheet" href="assets/syntaxhighlighter/styles/shCore.css">
+		<link rel="stylesheet" href="assets/syntaxhighlighter/styles/shCoreDefault.css">
+
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="assets/syntaxhighlighter/scripts/shBrushXml.js"></script>
+
+		<title>WM Validate - Plugin jQuery para validação de formulários</title>
+	</head>
+	<body>
+
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="init.html">Inicialização</a></li>
+						<li class="active"><a href="config.html">Configurações</a></li>
+						<li><a href="exemple.html">Exemplo</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row">
+
+			  	<div class="col-sm-12">
+
+		  			<div class="btn-group btn-group-justified">
+				    	<a href="https://github.com/welisonmenezes/wm-validate" target="_blank" class="btn btn-primary" title="WM Validate no Github">DOWNLOAD</a>
+
+				    	<a href="https://twitter.com/WelisonMenezes" target="_blank" class="btn btn-primary" title="Perfil no Twitter">TWITTER</a>
+
+				    	<a href="http://welisonmenezes.com.br/" target="_blank" class="btn btn-primary" title="Portifólio Welison Menezes">WEBSITE</a>
+				    </div>
+
+			  		<article class="body">
+
+			  			<h1>Plugin jQuery para validação de formulários</h1>
+			  			<p>
+			  				Opções de configuração do plugin WM Validate.
+			  			</p>
+			  			<hr>
+
+			  			<h3>
+			  				Objetos Principais
+			  			</h3>
+
+			  			<p>
+			  				Os seguintes objetos são os objetos de primeiro nível para a configuração e customização do plugin WM Validate. <br> Exemplo:
+			  			</p>
+
+			  			<pre class="brush: js;">
+							$('form').wmValidate({
+								messages  : {},
+								selectors : {},
+								config    : {},
+								callbacks : {}
+							});
+						</pre><br><br>
+
+			  			<dl class="dl-horizontal">
+							<dt style="text-align:left;">messages</dt>
+							<dd>
+								<p>
+									Objeto que configura/customiza as mensagens de erro. <br>Exemplo:
+								</p>
+								<pre class="brush: js;">
+									$('form').wmValidate({
+										messages : {
+											required : "Campo obrigatório!"
+										}
+									});
+								</pre>
+							</dd>
+							<dt style="text-align:left;">selectors</dt>
+							<dd>
+								<p>
+									Objeto que configura/customiza as classes css quais seletores dos elementos usados no plugin. <br>Exemplo:
+								</p>
+								<pre class="brush: js;">
+									$('form').wmValidate({
+										selectors : {
+											required : "required",
+											submit	 : "btn-submit"
+										}
+									});
+								</pre>
+							</dd>
+							<dt style="text-align:left;">config</dt>
+							<dd>
+								<p>
+									Objeto que configura/customiza algumas opções do plugin. <br>Exemplo:
+								</p>
+								<pre class="brush: js;">
+									$('form').wmValidate({
+										config : {
+											minlength : 1
+										}
+									});
+								</pre>
+							</dd>
+							<dt style="text-align:left;">callbacks</dt>
+							<dd>
+								<p>
+									Objeto que configura/customiza callbacks do plugin. <br> Exemplo:  
+								</p>
+								<pre class="brush: js;">
+									$('form').wmValidate({
+										callbacks : {
+											CB_AfterValidate : function(){
+												alert("Fim da validação.");
+											}
+										}
+									});
+								</pre>
+							</dd>
+						</dl><br><br>
+
+						<h3>Mensagens de erros</h3>
+
+						<p>
+							Veja como customizar as mensagens de erros geradas pelo plugin. As seguintes opções são para o objeto <strong>messages</strong>
+						</p>
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								  	<th>
+								  		atributo
+								  	</th>
+								  	<th style="width:70%;">
+								  		Descrição
+								  	</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<em>required</em>
+									</td>
+									<td style="width:70%;">
+										Mensagem de erro para campos requeridos. Default 
+										<em>
+											"Campo obrigatório!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>email</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de email. Default 
+										<em>
+											"E-mail inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>integer</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos que aceitam apenas números inteiros. Default 
+										<em>
+											"Apenas números!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>digit</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos que aceitam apenas letras e números. Default 
+										<em>
+											"Apenas letras e números!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>url</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos que aceitam apenas urls. Default 
+										<em>
+											"Url inválida!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>minlength</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com uma quantidade mínima de carcteres configurada. Default 
+										<em>
+											"Texto muito pequeno!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>maxlength</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com uma quantidade máxima de carcteres configurada. Default 
+										<em>
+											"Texto muito grande!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>rangelength</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com uma quantidade mínima e máxima de carcteres configurada. Default 
+										<em>
+											"Verifique o tamanho do texto."
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>min</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com um valor mínimo configurado. Default 
+										<em>
+											"Valor menor que o esperado."
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>max</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com um valor máximo configurado. Default 
+										<em>
+											"Valor maior que o esperado."
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>range</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos com um valor mínimo e máximo configurado. Default 
+										<em>
+											"Verifique o valor."
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>equalTo</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de confirmação. Default 
+										<em>
+											"Campo de confirmação diferente!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>date</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de data. Default 
+										<em>
+											"Data inválida!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cpf</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de cpf. Default 
+										<em>
+											"CPF inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cnpj</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de cnpj. Default 
+										<em>
+											"CNPJ inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cep</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de cep. Default 
+										<em>
+											"CEP inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>phone</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de telefone. Default 
+										<em>
+											"Número inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>creditcard</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de cartão de crédito. Default 
+										<em>
+											"Número de cartão inválido!"
+										</em>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<p>Exemplo:</p>
+
+						<pre class="brush: js;">
+							$('form').wmValidate({
+								messages : {
+				                    required    : 'Campo obrigatório!',
+				                    email       : 'E-mail inválido!',
+				                    integer     : 'Apenas números!',
+				                    digit       : 'Apenas letras e números!',
+				                    url         : 'Url inválida!',
+				                    minlength   : 'Texto muito pequeno!',
+				                    maxlength   : 'Texto muito grande!',
+				                    rangelength : 'Verifique o tamanho do texto.',
+				                    min         : 'Valor menor que o esperado.',
+				                    max         : 'Valor maior que o esperada.',
+				                    range       : 'Verifique o valor.',
+				                    equalTo     : 'Campo de confirmação diferente!',
+				                    date        : 'Data inválida!',
+				                    cpf         : 'CPF inválido!',
+				                    cnpj        : 'CNPJ inválido!',
+				                    cep         : 'CEP inválido!',
+				                    phone       : 'Número inválido!',
+				                    creditcard  : 'Número de cartão inválido!'
+				                }
+							});
+						</pre><br><br>
+
+						<h3>Seletores de elementos</h3>
+
+						<p>
+							Os seletores para os elementos do plugin <strong>devem ser classes css</strong>. As seguintes opções são para o objeto <strong>selectors</strong>
+						</p>
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								  	<th>
+								  		atributo
+								  	</th>
+								  	<th style="width:70%;">
+								  		Descrição
+								  	</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<em>required</em>
+									</td>
+									<td style="width:70%;">
+										Classe seletora para os elementos requeridos. Default 
+										<em>
+											"required"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>email</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um email. Default 
+										<em>
+											"email"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>integer</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser números inteiros. Default 
+										<em>
+											"integer"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>digit</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser letras e números. Default 
+										<em>
+											"digit"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>url</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser uma url. Default 
+										<em>
+											"url"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>minlength</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ter a quantidade mínima de carcteres configurada. Default 
+										<em>
+											"minlength"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>maxlength</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ter a quantidade máxima de carcteres configurada. Default 
+										<em>
+											"maxlength"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>rangelength</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ter a quantidade mínima e máxima de carcteres configurada. Default 
+										<em>
+											"rangelength"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>min</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser maior ou igual ao valor mínimo configurado. Default 
+										<em>
+											"min"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>max</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser menor ou igual ao valor máximo configurado. Default 
+										<em>
+											"max"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>range</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser maior ou igual ao valor mínimo e menor ou igual ao máximo configurado. Default 
+										<em>
+											"range"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>equalTo</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos com campos de confirmação. Default 
+										<em>
+											"equalTo"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>date</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser uma data. Default 
+										<em>
+											"date"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cpf</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um cpf. Default 
+										<em>
+											"cpf"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cnpj</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um cnpj. Default 
+										<em>
+											"cnpj"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cep</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um cep. Default 
+										<em>
+											"cep"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>phone</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um telefone. Default 
+										<em>
+											"phone"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>creditcard</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um número de cartão de crédito. Default 
+										<em>
+											"creditcard"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>submit</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para o botão de submissão do formulário. Default 
+										<em>
+											"wm-submit"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>msgError</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para o container da mensagem de erro. Default 
+										<em>
+											"msg-error"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>erro</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos e labels cuja validação deu erro. Default 
+										<em>
+											"error"
+										</em>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<p>Exemplo:</p>
+
+						<pre class="brush: js;">
+							$('form').wmValidate({
+								selectors : {
+				                    submit          : 'wm-submit',
+				                    required        : 'required',
+				                    email           : 'email',
+				                    integer         : 'integer',
+				                    digit           : 'digit',
+				                    url             : 'url',
+				                    minlength       : 'minlength',
+				                    maxlength       : 'maxlength',
+				                    rangelength     : 'rangelength',
+				                    min             : 'min',
+				                    max             : 'max',
+				                    range           : 'range',
+				                    equalTo         : 'equalTo',
+				                    date            : 'date',
+				                    cpf             : 'cpf',
+				                    cnpj            : 'cnpj',
+				                    cep             : 'cep',
+				                    phone           : 'phone',
+				                    creditcard      : 'creditcard',
+				                    msgError        : 'msg-error',
+				                    erro            : 'error'
+				                }
+							});
+						</pre><br><br>
+
+						<h3>Configurações do plugin</h3>
+
+						<p>
+							O plugin WM Validate lhe permite fazer algumas configurações. Veja abaixo quais são. As seguintes opções são para o objeto <strong>config</strong>
+						</p>
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								  	<th>
+								  		atributo
+								  	</th>
+								  	<th style="width:70%;">
+								  		Descrição
+								  	</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<em>minlength</em>
+									</td>
+									<td style="width:70%;">
+										Configura a quantidade mínima de caracteres. Você pode sobrescreve-la usando o atributo html data-minlength. Default 
+										<em>
+											1
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>maxlength</em>
+									</td>
+									<td style="width:70%;">
+										Configura a quantidade máxima de caracteres. Você pode sobrescreve-la usando o atributo html data-maxlength. Default 
+										<em>
+											10
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>min</em>
+									</td>
+									<td style="width:70%;">
+										Configura o valor mínimo de um campo. Você pode sobrescrever esse valor usando o atributo html data-min. Default 
+										<em>
+											1
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>max</em>
+									</td>
+									<td style="width:70%;">
+										Configura o valor máximo de um campo. Você pode sobrescrever esse valor usando o atributo html data-max. Default 
+										<em>
+											10
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>goToError</em>
+									</td>
+									<td style="width:70%;">
+										Configura o plugin a rolar a página até o primeiro elemento com erro na validação. Default 
+										<em>
+											true
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>cleanErrors</em>
+									</td>
+									<td style="width:70%;">
+										Configura o plugin a chamar o callback de limpeza dos campos com os erros de validação. Default 
+										<em>
+											true
+										</em>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<p>Exemplo:</p>
+
+						<pre class="brush: js;">
+							$('form').wmValidate({
+								config : {
+				                    minlength   : 1,
+				                    maxlength   : 10,
+				                    min         : 1,
+				                    max         : 10,
+				                    goToError   : true,
+				                    cleanErrors : true
+				                }
+							});
+						</pre><br><br>
+
+						<h3>Callbacks</h3>
+
+						<p>
+							O plugin executa alguns callbacks durante a validação do formulário. Por meio desses callbacks o plugin insere as classes e as mensagens de erro. Caso você queira personalizar alguns dos callbacks listados abaixo, esteja ciente de que as funçoes defaults do plugins serão sobreescritos.
+						</p>
+
+						<p>
+							<strong>
+								Ao custmizar os callbacks do plugin, você poderá acessar o elemento criticado ou o formulário usando this.element ou $(this.element), a mensagem de erro configurada usando this.message e a classe de erro configurada usando this.erro.
+							</strong>
+						</p>
+
+						<p>As seguintes opções são para o objeto <strong>callbacks</strong>
+						</p>
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								  	<th>
+								  		atributo
+								  	</th>
+								  	<th style="width:40%;">
+								  		Descrição
+								  	</th>
+								  	<th>
+								  		Exemplo
+								  	</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<em>CB_Required</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra required. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Required: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Email</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra email. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Email: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Integer</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra integer. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Integer: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Digit</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra digit. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Digit: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Url</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra url. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Url: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Minlength</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra minlength. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Minlength: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Maxlength</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra maxlength. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Maxlength: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_RangeLength</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra rangelength. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_RangeLength: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Min</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra min. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Min: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Max</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra max. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Max: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Range</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra range. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Range: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_EqualTo</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra equalTo. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_EqualTo: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Date</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra date. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Date: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Cpf</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra cpf. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Cpf: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Cnpj</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra cnpj. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Cnpj: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Cep</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra cep. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Cep: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Phone</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra phone. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Phone: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_CreditCard</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra creditcard. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_CreditCard: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_BeforeValidate</em>
+									</td>
+									<td style="width:40%;">
+										Chamada antes da validação acontecer. O this.element retorna o formulário em que ocorre a validação. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_BeforeValidate: function(){
+									                    console.log(this.element);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_AfterValidate</em>
+									</td>
+									<td style="width:40%;">
+										Chamada após validação acontecer. O this.element retorna o formulário em que ocorre a validação. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_AfterValidate: function(){
+									                    console.log(this.element);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Error</em>
+									</td>
+									<td style="width:40%;">
+										Chamada caso exista algum erro de validação. O this.element retorna o formulário em que ocorre a validação. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Error: function(){
+									                    console.log(this.element);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_ClearErrors</em>
+									</td>
+									<td style="width:40%;">
+										Chamada a cada submissão do formulário. O this.element retorna o formulário em que ocorre a validação. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_ClearErrors: function(){
+									                    console.log(this.element);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+			  		</article>
+
+			  		<div class="btn-group btn-group-justified">
+				    	<a href="https://github.com/welisonmenezes/wm-validate" target="_blank" class="btn btn-primary" title="WM Validate no Github">DOWNLOAD</a>
+
+				    	<a href="https://twitter.com/WelisonMenezes" target="_blank" class="btn btn-primary" title="Perfil no Twitter">TWITTER</a>
+				    	
+				    	<a href="http://welisonmenezes.com.br/" target="_blank" class="btn btn-primary" title="Portifólio Welison Menezes">WEBSITE</a>
+				    </div>
+			  		
+			  	</div>
+
+			  	
+		</div><!-- /.container --> <br><br><br>
+
+		<footer class="footer">
+			<div class="container">
+			<p class="text-muted">&copy; Todos os direitos reservados. 2014 || Welison Menezes</p>
+			</div>
+		</footer>
+
+		<script type="text/javascript" src="assets/js/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="wm-validate/jquery.wm-validate-1.0.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				SyntaxHighlighter.all();
+			});
+		</script>
+	</body>
+</html>
