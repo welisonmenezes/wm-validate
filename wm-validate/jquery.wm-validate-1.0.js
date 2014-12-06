@@ -106,10 +106,10 @@
              *  callbacks
              */
             callbacks = {
-                element     : false,
-                message     : false,
-                erro        : options.selectors.erro,
-                boxError    : options.selectors.msgError,
+                element : false,
+                message : false,
+                erro    : options.selectors.erro,
+                boxError: options.selectors.msgError,
                 /**
                  * callback fields validation
                  *
@@ -841,9 +841,9 @@
                  * @return boolean
                  */
                 required: function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.required;
 
-                    $form.find('.'+options.selectors.required).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this), type = t.attr('type');
 
                         // input checkbox and radio
@@ -877,9 +877,9 @@
                  * @return boolean
                  */
                 email : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.email;
 
-                    $form.find('.'+options.selectors.email).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isEmpty(t.val()) && !util.isEmail(t.val()) )
@@ -899,9 +899,9 @@
                  * @return boolean
                  */
                 integer : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.integer;
 
-                    $form.find('.'+options.selectors.integer).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isInteger(t.val()) && !util.isEmpty(t.val()) )
@@ -921,9 +921,9 @@
                  * @return boolean
                  */
                 digit : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.digit;
 
-                    $form.find('.'+options.selectors.digit).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isDigit(t.val()) && !util.isEmpty(t.val()) )
@@ -943,9 +943,9 @@
                  * @return boolean
                  */
                 url : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.url;
 
-                    $form.find('.'+options.selectors.url).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isUrl(t.val()) && !util.isEmpty(t.val()) )
@@ -965,9 +965,9 @@
                  * @return boolean
                  */
                 minlength : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.minlength;
 
-                    $form.find('.'+options.selectors.minlength).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var data = (t.data('minlength')  && parseInt(t.data('minlength')) )  ? t.data('minlength') : options.config.minlength;
                         if( util.hasLessThan(t.val(), data) && !util.isEmpty(t.val())  )
@@ -987,9 +987,9 @@
                  * @return boolean
                  */
                 maxlength : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.maxlength;
 
-                    $form.find('.'+options.selectors.maxlength).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var data = (t.data('maxlength')  && parseInt(t.data('maxlength')) )  ? t.data('maxlength') : options.config.maxlength;
                         if( util.hasMoreThan(t.val(), data) && !util.isEmpty(t.val())  )
@@ -1009,9 +1009,9 @@
                  * @return boolean
                  */
                 rangelength : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.rangelength;
 
-                    $form.find('.'+options.selectors.rangelength).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var max = (t.data('maxlength')  && parseInt(t.data('maxlength')) )  ? t.data('maxlength') : options.config.maxlength;
                         var min = (t.data('minlength')  && parseInt(t.data('minlength')) )  ? t.data('minlength') : options.config.minlength;
@@ -1032,9 +1032,9 @@
                  * @return boolean
                  */
                 wm_min : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.min;
 
-                    $form.find('.'+options.selectors.min).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var data = (t.data('min')  && parseInt(t.data('min')) )  ? t.data('min') : options.config.min;
                         if( util.isMin(t.val(), data) && !util.isEmpty(t.val())  )
@@ -1054,9 +1054,9 @@
                  * @return boolean
                  */
                 wm_max : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.max;
 
-                    $form.find('.'+options.selectors.max).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var data = (t.data('max')  && parseInt(t.data('max')) )  ? t.data('max') : options.config.max;
                         if( util.isMax(t.val(), data) && !util.isEmpty(t.val())  )
@@ -1076,9 +1076,9 @@
                  * @return boolean
                  */
                 range : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.range;
 
-                    $form.find('.'+options.selectors.range).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         var max = (t.data('max')  && parseInt(t.data('max')) )  ? t.data('max') : options.config.max;
                         var min = (t.data('min')  && parseInt(t.data('min')) )  ? t.data('min') : options.config.min;
@@ -1099,9 +1099,9 @@
                  * @return boolean
                  */
                 equalTo : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.equalTo;
 
-                    $form.find('.'+options.selectors.equalTo).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( t.data('target') && !util.equalTo( t.val(), $('.'+t.data('target')).val() ) )
@@ -1121,9 +1121,9 @@
                  * @return boolean
                  */
                 date : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.date;
 
-                    $form.find('.'+options.selectors.date).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isDate(t.val()) && !util.isEmpty(t.val()) )
@@ -1143,9 +1143,9 @@
                  * @return boolean
                  */
                 cpf : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.cpf;
 
-                    $form.find('.'+options.selectors.cpf).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isCpf(t.val()) && !util.isEmpty(t.val()) )
@@ -1165,9 +1165,9 @@
                  * @return boolean
                  */
                 cnpj : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.cnpj;
 
-                    $form.find('.'+options.selectors.cnpj).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
 
                         if( !util.isCnpj(t.val()) && !util.isEmpty(t.val()) )
@@ -1187,9 +1187,9 @@
                  * @return boolean
                  */
                 cep : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.cep;
 
-                    $form.find('.'+options.selectors.cep).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         if( !util.isCep(t.val()) && !util.isEmpty(t.val()) )
                         {
@@ -1208,9 +1208,9 @@
                  * @return boolean
                  */
                 phone : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.phone;
 
-                    $form.find('.'+options.selectors.phone).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         if( !util.isPhone(t.val()) && !util.isEmpty(t.val()) )
                         {
@@ -1229,9 +1229,9 @@
                  * @return boolean
                  */
                 creditcard : function(form){
-                    var $form = form, error = false;
+                    var $form = form, error = false, s = options.selectors.creditcard;
 
-                    $form.find('.'+options.selectors.creditcard).each(function(){
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
                         var t = $(this);
                         if( !util.isCreditCard(t.val()) && !util.isEmpty(t.val()) )
                         {
