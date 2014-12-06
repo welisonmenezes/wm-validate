@@ -36,7 +36,8 @@
                     cnpj        : 'CNPJ inválido!',
                     cep         : 'CEP inválido!',
                     phone       : 'Número inválido!',
-                    creditcard  : 'Número de cartão inválido!'
+                    creditcard  : 'Número de cartão inválido!',
+                    extension   : 'Tipo de arquivo inválido!' 
                 },
                 // selectors - only css class
                 selectors : {
@@ -60,7 +61,8 @@
                     phone           : 'phone',
                     creditcard      : 'creditcard',
                     msgError        : 'msg-error',
-                    erro            : 'error'
+                    erro            : 'error',
+                    extension       : 'extension'
                 },
                 // configurations
                 config : {
@@ -69,7 +71,8 @@
                     min         : 1,
                     max         : 10,
                     goToError   : true,
-                    cleanErrors : true
+                    cleanErrors : true,
+                    extensions  : '.jpg,.jpeg,.gif,.png'
                 },
                 // callbacks
                 callbacks : {
@@ -91,6 +94,7 @@
                     CB_Cep              : false, 
                     CB_Phone            : false,
                     CB_CreditCard       : false, 
+                    CB_Extension         : false,
                     CB_BeforeValidate   : false,
                     CB_AfterValidate    : false,
                     CB_Error            : false,
@@ -328,6 +332,18 @@
                         this.element = el;
                         this.message = msg;
                         options.callbacks.CB_CreditCard.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                },
+                CB_Extension: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Extension ))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Extension.apply(this, arguments);
                     }
                     else
                     {
@@ -827,6 +843,17 @@
                     }
 
                     return ( nCheck % 10 ) === 0;
+                },
+                /**
+                 * verify if second param has extension of first param
+                 *
+                 * @param array of extensions
+                 * @param string value of input
+                 * 
+                 * @return boolean
+                 */
+                hasExt : function(exts, val){
+                    return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(val);
                 }
             },
             /**
@@ -1241,6 +1268,30 @@
                     });
 
                     return error;
+                },
+                /**
+                 * verify if extension is valid
+                 *
+                 * @param htmlElement form container
+                 * 
+                 * @return boolean
+                 */
+                extension : function(form){
+                    var $form = form, error = false, s = options.selectors.extension;
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
+                        var t = $(this);
+
+                        var ext = (t.data('extensions')  && !util.isEmpty(t.data('extensions')) )  ? t.data('extensions') : options.config.extensions;
+                        var ar_ext = ext.split(',');
+
+                        if( !util.hasExt(ar_ext, t.val()) && !util.isEmpty(t.val()) )
+                        {
+                            callbacks.CB_Extension(t, options.messages.extension);
+                            error = true;
+                        }
+                    });
+
+                    return error;
                 }
             };
 
@@ -1311,6 +1362,9 @@
 
                     // creditcard
                     if( funcs.creditcard($form) ) error++;
+
+                    // extension
+                    if( funcs.extension($form) ) error++;
 
                     // after validate
                     callbacks.CB_AfterValidate();

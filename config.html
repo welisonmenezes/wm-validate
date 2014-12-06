@@ -347,6 +347,17 @@
 										</em>
 									</td>
 								</tr>
+								<tr>
+									<td>
+										<em>extension</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de tipos de arquivos. Default 
+										<em>
+											"Tipo de arquivo inválido!"
+										</em>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 
@@ -372,7 +383,7 @@
 				                    cnpj        : 'CNPJ inválido!',
 				                    cep         : 'CEP inválido!',
 				                    phone       : 'Número inválido!',
-				                    creditcard  : 'Número de cartão inválido!'
+				                    extension   : 'Tipo de arquivo inválido!'
 				                }
 							});
 						</pre><br><br>
@@ -595,6 +606,17 @@
 								</tr>
 								<tr>
 									<td>
+										<em>extension</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos file cujo valor deve ser um arquivo permitido conforme configurado. Default 
+										<em>
+											"extension"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
 										<em>submit</em>
 									</td>
 									<td style="width:45%;">
@@ -653,6 +675,7 @@
 				                    cep             : 'cep',
 				                    phone           : 'phone',
 				                    creditcard      : 'creditcard',
+				                    extension       : 'extension',
 				                    msgError        : 'msg-error',
 				                    erro            : 'error'
 				                }
@@ -743,6 +766,17 @@
 										</em>
 									</td>
 								</tr>
+								<tr>
+									<td>
+										<em>extensions</em>
+									</td>
+									<td style="width:70%;">
+										Configura os tipos de arquivos permitidos pelo input file. Os arquivos devem ser listados separados por vírgulas e sem espaços. Também é permitido configurar diretamente no elemento usando o atributo data-extensions. Default 
+										<em>
+											".jpg,.jpeg,.gif,.png"
+										</em>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 
@@ -756,7 +790,8 @@
 				                    min         : 1,
 				                    max         : 10,
 				                    goToError   : true,
-				                    cleanErrors : true
+				                    cleanErrors : true,
+				                    extensions  : '.jpg,.jpeg,.gif,.png'
 				                }
 							});
 						</pre><br><br>
@@ -1231,6 +1266,31 @@
 											$('form').wmValidate({
 												callbacks : {
 													CB_CreditCard: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                    console.log(this.boxError);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Extension</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra extension. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Extension: function(){
 									                    console.log(this.element);
 									                    console.log(this.message);
 									                    console.log(this.erro);

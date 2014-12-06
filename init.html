@@ -146,6 +146,10 @@
 
 						<h3>Classes para regras de validação</h3>
 
+						<p>
+							As classes listadas abaixo são as classes padrões usadas pelo plugin para aplicar as regras de validação correspondente. As classes seletoras podem ser customizadas. <small>Veja a página de configurações para mais detalhes</small>.
+						</p>
+
 						<table class="table table-bordered">
 							<thead>
 								<tr>
@@ -398,6 +402,19 @@
 									<td>
 										<pre class="brush: html;">
 											<input type="text" class="creditcard">
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>extension</em>
+									</td>
+									<td style="width:45%;">
+										Permite apenas as extensões de arquivos configurados. A configuração pode ser feita usando o atributo data-extensions.
+									</td>
+									<td>
+										<pre class="brush: html;">
+											<input type="file" class="extension" data-extensions=".docx,.pdf,.txt">
 										</pre>
 									</td>
 								</tr>
