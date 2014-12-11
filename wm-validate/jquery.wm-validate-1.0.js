@@ -1300,7 +1300,8 @@
 
                 $form.find('.'+options.selectors.msgError).hide();
 
-                $form.find('.'+options.selectors.submit).click(function(){
+                $form.find('.'+options.selectors.submit).on('click', function(){
+
                     var error  = 0;
 
                     // before validate
