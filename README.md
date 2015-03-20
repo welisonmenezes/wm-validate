@@ -19,4 +19,4 @@ Plugin jQuery para validação de formulários
 
 ## Para mais detalhes visite a página do plugin
 
-[Website do Plugin WM Validate](http://welisonmenezes.com.br/works/plugins/jquery/wm-validate/)
+[Website do Plugin WM Validate](http://welisonmenezes.com.br/extras/plugins/jquery/wm-validate/)
