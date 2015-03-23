@@ -21,7 +21,7 @@
                 messages : {
                     required    : 'Campo obrigatório!',
                     email       : 'E-mail inválido!',
-                    integer     : 'Apenas números!',
+                    integer     : 'Apenas números inteiros!',
                     digit       : 'Apenas letras e números!',
                     url         : 'Url inválida!',
                     minlength   : 'Texto muito pequeno!',
@@ -37,7 +37,9 @@
                     cep         : 'CEP inválido!',
                     phone       : 'Número inválido!',
                     creditcard  : 'Número de cartão inválido!',
-                    extension   : 'Tipo de arquivo inválido!' 
+                    extension   : 'Tipo de arquivo inválido!',
+                    currency    : 'Valor de moeda inválido!',
+                    numeric     : 'Apenas números!'
                 },
                 // selectors - only css class
                 selectors : {
@@ -62,7 +64,9 @@
                     creditcard      : 'creditcard',
                     msgError        : 'msg-error',
                     erro            : 'error',
-                    extension       : 'extension'
+                    extension       : 'extension',
+                    currency        : 'currency',
+                    numeric         : 'numeric'
                 },
                 // configurations
                 config : {
@@ -94,11 +98,14 @@
                     CB_Cep              : false, 
                     CB_Phone            : false,
                     CB_CreditCard       : false, 
-                    CB_Extension         : false,
+                    CB_Extension        : false,
+                    CB_Currency         : false,
+                    CB_Numeric          : false,
                     CB_BeforeValidate   : false,
                     CB_AfterValidate    : false,
                     CB_Error            : false,
-                    CB_ClearErrors      : false
+                    CB_ClearErrors      : false,
+                    CB_Ok               : false
                 }
             },
             /**
@@ -350,6 +357,30 @@
                         callbacks.CB_Input(el, msg);
                     }
                 }, 
+                CB_Currency: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Currency))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Currency.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
+                CB_Numeric: function(el, msg){
+                    if($.isFunction( options.callbacks.CB_Numeric))
+                    {
+                        this.element = el;
+                        this.message = msg;
+                        options.callbacks.CB_Numeric.apply(this, arguments);
+                    }
+                    else
+                    {
+                        callbacks.CB_Input(el, msg);
+                    }
+                }, 
                 /**
                  * callback before/after validation
                  *
@@ -441,6 +472,24 @@
                         var $form = form;
                         $form.find('label, input, select, textarea').removeClass(options.selectors.erro);
                         $form.find('.'+options.selectors.msgError).hide().html('');
+                    }
+                },
+                /**
+                 * callback validation success
+                 *
+                 * @param htmlElement validated form
+                 * 
+                 * @return void
+                 */
+                CB_Ok: function(form){
+                    if($.isFunction( options.callbacks.CB_Ok ))
+                    {
+                        this.element = form;
+                        options.callbacks.CB_Ok.apply(this, arguments);
+                    }
+                    else
+                    {
+                        form.submit();
                     }
                 }
             },
@@ -854,6 +903,29 @@
                  */
                 hasExt : function(exts, val){
                     return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(val);
+                },
+                /**
+                 * verify if parans is valid currency
+                 *
+                 * @param string value of input
+                 * 
+                 * @return boolean
+                 */
+                isCurrency: function(val){
+                    var value = val;
+                    return /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/.test(value);
+                },
+                /**
+                 * verify if parans is numeric
+                 *
+                 * @param string value of input
+                 * 
+                 * @return boolean
+                 */
+                isNumeric: function(val){
+                    var value = val;
+                    if(isNaN(value)) return false;
+                    return true;
                 }
             },
             /**
@@ -1292,6 +1364,50 @@
                     });
 
                     return error;
+                },
+                /**
+                 * checks if any field .currency is a currency value
+                 *
+                 * @param htmlElement form container
+                 * 
+                 * @return boolean
+                 */
+                currency : function(form){
+                    var $form = form, error = false, s = options.selectors.currency;
+
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
+                        var t = $(this);
+
+                        if( !util.isCurrency(t.val()) && !util.isEmpty(t.val()) )
+                        {
+                            callbacks.CB_Currency(t, options.messages.currency);
+                            error = true;
+                        }
+                    });
+
+                    return error;
+                },
+                /**
+                 * checks if any field .numeric is numeric
+                 *
+                 * @param htmlElement form container
+                 * 
+                 * @return boolean
+                 */
+                numeric : function(form){
+                    var $form = form, error = false, s = options.selectors.numeric;
+
+                    $form.find('input.'+s+',select.'+s+',textarea.'+s).each(function(){
+                        var t = $(this);
+
+                        if( !util.isNumeric(t.val()) && !util.isEmpty(t.val()) )
+                        {
+                            callbacks.CB_Numeric(t, options.messages.numeric);
+                            error = true;
+                        }
+                    });
+
+                    return error;
                 }
             };
 
@@ -1367,6 +1483,12 @@
                     // extension
                     if( funcs.extension($form) ) error++;
 
+                    // currency
+                    if( funcs.currency($form) ) error++;
+
+                    // numeric
+                    if( funcs.numeric($form) ) error++;
+
                     // after validate
                     callbacks.CB_AfterValidate();
 
@@ -1376,7 +1498,7 @@
                     }
                     else
                     {
-                        $form.submit();
+                        callbacks.CB_Ok($form);
                     }
                     return false;
                 });

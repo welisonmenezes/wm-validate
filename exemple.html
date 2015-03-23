@@ -175,6 +175,18 @@
 									<span class="msg-error"></span>
 								</div>
 
+								<div class="form-group">
+									<label>currency</label>
+									<input type="text" class="form-control currency">
+									<span class="msg-error"></span>
+								</div>
+
+								<div class="form-group">
+									<label>numeric</label>
+									<input type="text" class="form-control numeric">
+									<span class="msg-error"></span>
+								</div>
+
 							</div>
 						</div>
 
@@ -296,7 +308,13 @@
 		<script type="text/javascript" src="wm-validate/jquery.wm-validate-1.0.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('form').wmValidate();
+				$('form').wmValidate({
+					callbacks : {
+						CB_Ok : function(){
+							this.element.submit();
+						}
+					}
+				});
 			});
 		</script>
 	</body>

@@ -358,6 +358,28 @@
 										</em>
 									</td>
 								</tr>
+								<tr>
+									<td>
+										<em>currency</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos de moeda. Default 
+										<em>
+											"Valor de moeda inválido!"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>numeric</em>
+									</td>
+									<td style="width:45%;">
+										Mensagem de erro para campos numéricos. Default 
+										<em>
+											"Apenas números!"
+										</em>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 
@@ -383,7 +405,9 @@
 				                    cnpj        : 'CNPJ inválido!',
 				                    cep         : 'CEP inválido!',
 				                    phone       : 'Número inválido!',
-				                    extension   : 'Tipo de arquivo inválido!'
+				                    extension   : 'Tipo de arquivo inválido!',
+				                    currency    : 'Valor de moeda inválido!',
+				                    numeric     : 'Apenas números!'
 				                }
 							});
 						</pre><br><br>
@@ -617,6 +641,28 @@
 								</tr>
 								<tr>
 									<td>
+										<em>currency</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser do tipo moeda. Ex: 1,590.00. Default 
+										<em>
+											"currency"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>numeric</em>
+									</td>
+									<td style="width:45%;">
+										Classe seletora para os elementos cujo valor deve ser um número (inteiro o flutuante). Default 
+										<em>
+											"numeric"
+										</em>
+									</td>
+								</tr>
+								<tr>
+									<td>
 										<em>submit</em>
 									</td>
 									<td style="width:45%;">
@@ -676,6 +722,8 @@
 				                    phone           : 'phone',
 				                    creditcard      : 'creditcard',
 				                    extension       : 'extension',
+				                    currency        : 'currency',
+				                    numeric 		: 'numeric',
 				                    msgError        : 'msg-error',
 				                    erro            : 'error'
 				                }
@@ -1303,6 +1351,56 @@
 								</tr>
 								<tr>
 									<td>
+										<em>CB_Currency</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra currency. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Currency: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                    console.log(this.boxError);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Numeric</em>
+									</td>
+									<td style="width:40%;">
+										Chamada em caso de erro para a regra numeric. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Numeric: function(){
+									                    console.log(this.element);
+									                    console.log(this.message);
+									                    console.log(this.erro);
+									                    console.log(this.boxError);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
 										<em>CB_BeforeValidate</em>
 									</td>
 									<td style="width:40%;">
@@ -1383,6 +1481,29 @@
 												callbacks : {
 													CB_ClearErrors: function(){
 									                    console.log(this.element);
+									                }
+												}
+											});
+										</pre>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<em>CB_Ok</em>
+									</td>
+									<td style="width:40%;">
+										Chamada após quando a validação está ok. Caso esse callback não seja definido o fourmulário submeterá. Se definido o programador deve submeter o formulário. Default 
+										<em>
+											false
+										</em>
+									</td>
+									<td>
+										<pre class="brush: js;">
+											$('form').wmValidate({
+												callbacks : {
+													CB_Ok: function(){
+									                    console.log(this.element);
+									                    // this.element.submit();
 									                }
 												}
 											});
